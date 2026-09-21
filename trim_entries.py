@@ -29,24 +29,24 @@ def balance_word_count(df: pd.DataFrame) -> pd.DataFrame:
 
     return new_df
 
-def trim_entries(arschhaare: pd.DataFrame, limit: float = 0.50) -> pd.DataFrame:
-    if 'is_spurious' in arschhaare:
-        spurious_mask = arschhaare["is_spurious"] == True
+def trim_entries(entries: pd.DataFrame, limit: float = 0.50) -> pd.DataFrame:
+    if 'is_spurious' in entries:
+        spurious_mask = entries["is_spurious"] == True
     else:
-        spurious_mask = arschhaare['No error'] == False
+        spurious_mask = entries['No error'] == False
     
     num_spurious = spurious_mask.astype(int).sum()
-    total_rows = len(arschhaare)
+    total_rows = len(entries)
 
     current_ratio = num_spurious / total_rows
 
     if current_ratio <= limit:
-        return arschhaare
+        return entries
 
     num_to_drop = int(((num_spurious - limit * total_rows) / (1 - limit)) + 1)
-    spurious_indices = arschhaare[spurious_mask].index
-    indices_to_drop = arschhaare.loc[spurious_indices].sample(n=num_to_drop).index
-    df_cleaned = arschhaare.drop(indices_to_drop)
+    spurious_indices = entries[spurious_mask].index
+    indices_to_drop = entries.loc[spurious_indices].sample(n=num_to_drop).index
+    df_cleaned = entries.drop(indices_to_drop)
     return df_cleaned
 
 

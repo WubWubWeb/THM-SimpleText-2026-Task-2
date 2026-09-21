@@ -48,7 +48,3 @@ def trim_entries(entries: pd.DataFrame, limit: float = 0.50) -> pd.DataFrame:
     indices_to_drop = entries.loc[spurious_indices].sample(n=num_to_drop).index
     df_cleaned = entries.drop(indices_to_drop)
     return df_cleaned
-
-
-if __name__ == "__main__":
-    print("ligmaine eier")
